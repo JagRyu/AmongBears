@@ -8,5 +8,14 @@ public class MainMenu : MonoBehaviour
     public void ClickQuit()
     {
         print("게임종료 버튼 누름");
+        //유니티 에디터
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+
+        //안드로이드
+#else
+Application.Quit();
+#endif
+
     }
 }
