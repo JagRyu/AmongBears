@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class JoyStick : MonoBehaviour
 {
+
+    Animator anim;
+
     //stick의 위치
     public RectTransform stick, backGround;
     PlayerCrt playerCtr;
@@ -14,6 +17,7 @@ public class JoyStick : MonoBehaviour
     private void Start()
     {
         playerCtr = GetComponent<PlayerCrt>();
+        anim = GetComponent<Animator>();
         limit = backGround.rect.width * 0.5f;
     }
     private void Update()
@@ -28,10 +32,24 @@ public class JoyStick : MonoBehaviour
             Vector3 dir = (stick.position - backGround.position).normalized;
             transform.position += dir * playerCtr.speed * Time.deltaTime;
 
+            anim.SetBool("isWalk", true);
+
+            if (dir.x < 0)
+            {
+                //왼쪽
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                //오른쪽
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+
             // 조이스틱 클릭 떼어냈을 때(드래그 끝나면)
             if (Input.GetMouseButtonUp(0))
             {
                 stick.localPosition = new Vector3(0, 0, 0);
+                anim.SetBool("isWalk", false);
                 isDrag = false;
             }
         }

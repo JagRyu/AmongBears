@@ -7,10 +7,15 @@ public class PlayerCrt : MonoBehaviour
     public GameObject joyStick;
     public float speed;
     public bool isJoyStick;
+
+    Animator anim;
     private void Start()
     {
+        anim = GetComponent<Animator>();
+
         Camera.main.transform.parent = transform;
         Camera.main.transform.localPosition = new Vector3(0, 0, -10f);
+
     }
     private void Update()
     {
@@ -34,8 +39,23 @@ public class PlayerCrt : MonoBehaviour
                 Vector3 dir = (Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f)).normalized;
 
                 transform.position += dir * speed * Time.deltaTime;
+                anim.SetBool("isWalk", true);
+
+                if(dir.x < 0)
+                {
+                    //¿ÞÂÊ
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else
+                {
+                    //¿À¸¥ÂÊ
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+            }
+            else
+            {
+                anim.SetBool("isWalk", false);
             }
         }
-       
     }
 }
