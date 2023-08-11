@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 
 
 public class PlayerCrt : MonoBehaviour
 {
-    public GameObject joyStick;
+    public GameObject joyStick, mainView, missionView;
+    public Button Btn;
     public float speed;
 
     public Settings settings;
+    GameObject coll;
     Animator anim;
 
     public bool isCantMove;
@@ -71,5 +75,47 @@ public class PlayerCrt : MonoBehaviour
                 anim.SetBool("isWalk", false);
             }
         }
+    }
+
+    //캐릭터 삭제
+    public void DestroyPlayer()
+    {
+        //1.카메라 분리
+        Camera.main.transform.parent = null;
+
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Mission")
+        {
+            coll = collision.gameObject;
+            Btn.interactable = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Mission")
+        {
+            coll = null;
+            Btn.interactable = false;
+        }
+    }
+
+    //버튼(USE) 누르면 호출
+    public void ClickButton()
+    {
+        //MissionStart호출
+        coll.SendMessage("MissionStart");
+        isCantMove = true;
+        Btn.interactable = false;
+    }
+
+    //취소 버튼 누르면 호출
+    public void MissionEnd()
+    {
+        isCantMove = false;
+
     }
 }
