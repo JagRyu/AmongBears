@@ -116,6 +116,5 @@ public class PlayerCrt : MonoBehaviour
     public void MissionEnd()
     {
         isCantMove = false;
-
     }
 }
