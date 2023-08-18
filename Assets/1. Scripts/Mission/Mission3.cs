@@ -9,9 +9,11 @@ using UnityEngine.UI;
 public class Mission3 : MonoBehaviour
 {
     public Text InputText, KeyCode;
+    public Animator shaker;
 
     Animator mAnim;
     PlayerCrt playerCrtl_script;
+
 
     void Start()
     {
@@ -65,6 +67,10 @@ public class Mission3 : MonoBehaviour
         if (InputText.text == KeyCode.text)
         {
             MissionSucces();
+        }
+        else
+        {
+            shaker.enabled = true;
         }
     }
     //미션 성공하면 호출
